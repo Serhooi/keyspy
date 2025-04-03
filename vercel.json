@@ -1,4 +1,3 @@
-// vercel.json configuration file
 {
   "version": 2,
   "buildCommand": "npm run build",
