@@ -1,30 +1,33 @@
 // config.ts - Central configuration file for KEYSPY
 // This file contains all the editable text and configuration variables
 
+// Тип для конфигурации (можно расширять по необходимости)
+type ConfigValue = string | number | boolean | string[] | { [key: string]: ConfigValue };
+
 export const AppConfig = {
   // Brand Information
   brand: {
     name: 'KEYSPY',
     tagline: 'AI-Powered SEO & SEM Platform',
     description: 'Analyze your website, discover keywords, and generate SEO-optimized content with the power of AI.',
-    logoType: 'zap', // Uses Lucide icon name
+    logoType: 'zap',
     copyright: `© ${new Date().getFullYear()} KEYSPY. All rights reserved.`,
   },
-  
+
   // Contact Information
   contact: {
     email: 'support@keyspy.example.com',
     phone: '+1 (555) 123-4567',
     address: '123 AI Avenue, Tech City, TC 12345',
   },
-  
+
   // Social Media Links
   social: {
     twitter: 'https://twitter.com/keyspy',
     facebook: 'https://facebook.com/keyspy',
     linkedin: 'https://linkedin.com/company/keyspy',
   },
-  
+
   // Feature Descriptions
   features: {
     seoAudit: {
@@ -48,7 +51,7 @@ export const AppConfig = {
       icon: 'barChart2',
     },
   },
-  
+
   // Pricing Plans
   plans: {
     free: {
@@ -86,7 +89,7 @@ export const AppConfig = {
       ],
     },
   },
-  
+
   // Navigation Items
   navigation: {
     main: [
@@ -108,7 +111,7 @@ export const AppConfig = {
       { name: 'Terms', href: '/terms' },
     ],
   },
-  
+
   // Call to Action Buttons
   cta: {
     primary: {
@@ -120,7 +123,7 @@ export const AppConfig = {
       href: '/about',
     },
   },
-  
+
   // Default Theme Settings
   defaultTheme: {
     primaryColor: 'blue',
@@ -130,11 +133,20 @@ export const AppConfig = {
   },
 };
 
-// Helper function to get config values
-export function getConfig(path: string): string | number | object | null {
-  return path.split('.').reduce((prev: any, curr) => {
-    return prev ? prev[curr] : null;
-  }, AppConfig);
+// Helper function to get config values with typing
+export function getConfig(path: string): ConfigValue | null {
+  const keys = path.split('.');
+  let result: ConfigValue | undefined = AppConfig;
+
+  for (const key of keys) {
+    if (typeof result === 'object' && result !== null && key in result) {
+      result = (result as Record<string, ConfigValue>)[key];
+    } else {
+      return null;
+    }
+  }
+
+  return result ?? null;
 }
 
 // Export default config
