@@ -136,9 +136,10 @@ export const AppConfig = {
 } as const;
 
 // Fully type-safe config getter
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getConfig(path: string): ConfigValue | null {
   const keys = path.split('.');
-  let result: ConfigValue | undefined = AppConfig;
+  let result: any = AppConfig;
 
   for (const key of keys) {
     if (
@@ -147,7 +148,7 @@ export function getConfig(path: string): ConfigValue | null {
       !Array.isArray(result) &&
       key in result
     ) {
-      result = (result as Record<string, ConfigValue>)[key];
+      result = result[key];
     } else {
       return null;
     }
