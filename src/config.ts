@@ -1,8 +1,17 @@
 // config.ts - Central configuration file for KEYSPY
 // This file contains all the editable text and configuration variables
 
-// Тип для конфигурации (можно расширять по необходимости)
-type ConfigValue = string | number | boolean | string[] | { [key: string]: ConfigValue };
+// Тип значения в конфигурации
+type ConfigValue =
+  | string
+  | number
+  | boolean
+  | string[]
+  | { [key: string]: ConfigValue }
+  | ConfigValue[];
+
+// Тип конфигурации
+type AppConfigType = typeof AppConfig;
 
 export const AppConfig = {
   // Brand Information
@@ -97,57 +106,4 @@ export const AppConfig = {
       { name: 'SEO Audit', href: '/seo-audit', icon: 'search' },
       { name: 'Content Generator', href: '/content', icon: 'penTool' },
       { name: 'Ad Intelligence', href: '/advertising', icon: 'target' },
-      { name: 'Analytics', href: '/analytics', icon: 'barChart2' },
-      { name: 'Reports', href: '/reports', icon: 'fileText' },
-      { name: 'Settings', href: '/settings', icon: 'settings' },
-    ],
-    footer: [
-      { name: 'About', href: '/about' },
-      { name: 'Features', href: '/#features' },
-      { name: 'Pricing', href: '/pricing' },
-      { name: 'Blog', href: '/blog' },
-      { name: 'Contact', href: '/contact' },
-      { name: 'Privacy', href: '/privacy' },
-      { name: 'Terms', href: '/terms' },
-    ],
-  },
-
-  // Call to Action Buttons
-  cta: {
-    primary: {
-      text: 'Get Started',
-      href: '/dashboard',
-    },
-    secondary: {
-      text: 'Learn More',
-      href: '/about',
-    },
-  },
-
-  // Default Theme Settings
-  defaultTheme: {
-    primaryColor: 'blue',
-    mode: 'light',
-    fontFamily: 'inter',
-    borderRadius: 'md',
-  },
-};
-
-// Helper function to get config values with typing
-export function getConfig(path: string): ConfigValue | null {
-  const keys = path.split('.');
-  let result: ConfigValue | undefined = AppConfig;
-
-  for (const key of keys) {
-    if (typeof result === 'object' && result !== null && key in result) {
-      result = (result as Record<string, ConfigValue>)[key];
-    } else {
-      return null;
-    }
-  }
-
-  return result ?? null;
-}
-
-// Export default config
-export default AppConfig;
+      { name: 'Analytics', href: '/analytics', icon: 'barChart2'
